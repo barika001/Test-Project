@@ -1,44 +1,44 @@
 pipeline {
-         agent any
-         stages {
-                 stage('One') {
-                 steps {
-                     echo 'Hi, this is Barika from VESIT'
-                 }
-                 }
-                 stage('Two') {
-                 steps {
-                    input('Do you want to proceed?')
-                 }
-                 }
-                 stage('Three') {
-                 when {
-                       not {
-                            branch "master"
-                       }
-                 }
-                 steps {
-                       echo "Hello"
-                 }
-                 }
-                 stage('Four') {
-                 parallel { 
-                            stage('Unit Test') {
-                           steps {
-                                echo "Running the unit test..."
-                           }
-                           }
-                            stage('Integration test') {
-                              agent {
-                                    docker {
-                                            reuseNode true
-                                           }
-                                    }
-                              steps {
-                                echo "Running the integration test..."
-                              }
-                           }
-                           }
-                           }
-              }
+    agent any
+    stages {
+        stage('One') {
+            steps {
+                echo 'Hi, this is Barika from VESIT'
+            }
+        }
+        stage('Two') {
+            steps {
+                input('Do you want to proceed?')
+            }
+        }
+        stage('Three') {
+            when {
+                not {
+                    branch "master"
+                }
+            }
+            steps {
+                echo "Hello"
+            }
+        }
+        stage('Four') {
+            parallel {
+                stage('Unit Test') {
+                    steps {
+                        echo "Running the unit test..."
+                    }
+                }
+                stage('Integration test') {
+                    agent {
+                        docker {
+                            reuseNode true
+                        }
+                    }
+                    steps {
+                        echo "Running the integration test..."
+                    }
+                }
+            }
+        }
+    }
 }
